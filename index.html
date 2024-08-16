@@ -11,12 +11,20 @@
       <canvas id="canvas" width="600" height="450"></canvas>
     </div>
 
-    <div style="display: flex; justify-content: space-between">
-      <div>
+    <div
+      class="game-controls cards"
+      style="display: flex; justify-content: space-between"
+    >
+      <div class="game-control card player">
         <h2>Игрок 1</h2>
         <div>Попаданий: <span id="player1wins">0</span></div>
       </div>
-      <div>
+
+      <div class="game-control card">
+        <button id="start">Начать игру</button>
+      </div>
+
+      <div class="game-control card player">
         <h2>Игрок 2</h2>
         <div>Попаданий: <span id="player2wins">0</span></div>
       </div>
