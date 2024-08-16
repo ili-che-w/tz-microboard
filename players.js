@@ -1,37 +1,50 @@
-class Player {
-  constructor(x, y, fillStyle, step, up, topLimit, bottomLimit) {
+class Circle {
+  constructor(x, y, radius, color) {
     this.x = x
     this.y = y
-    this.fillStyle = fillStyle
-    this.step = step
-    this.up = up
-    this.topLimit = topLimit
-    this.bottomLimit = bottomLimit
-
-    this.radius = 30
+    this.radius = radius
+    this.fillStyle = color
   }
 
   paint(ctx) {
     ctx.fillStyle = this.fillStyle
-
     ctx.beginPath()
     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, true)
     ctx.fill()
-
-    // обработка направления движения
-    const topBounce = this.y - this.radius <= this.topLimit,
-      bottomBounce = this.y + this.radius >= this.bottomLimit
-
-    if (topBounce || bottomBounce) {
-      this.up = !this.up
-    }
-
-    // расчет следующего шага
-    this.y += this.up ? this.step : -this.step
   }
 }
 
-export const getPlayers = () => [
-  new Player(30, 225, 'rgb(0 0 200)', 0.5, true, 0, 450),
-  new Player(570, 225, 'rgb(200 0 0)', 2, false, 0, 450)
-]
+export class Spell extends Circle {
+  constructor(id, x, y, color, moveRight, playerId) {
+    super(x, y, 15, color)
+    this.id = id
+    this.speed = 10
+    this.moveRight = moveRight
+    this.playerId = playerId
+  }
+
+  paint(ctx) {
+    super.paint(ctx)
+    this.x += this.moveRight ? this.speed : -this.speed
+  }
+}
+
+export class Player extends Circle {
+  constructor(id, x, color, speed, up, fireDirection) {
+    super(x, 225, 30, color)
+    this.id = id
+    this.speed = speed
+    this.up = up
+    this.fireDirection = fireDirection
+    this.spellsCount = 0
+    this.hurtsCount = 0
+    this.winsCount = 0
+    this.lastFired = 0
+    this.fireInterval = 5000
+  }
+
+  paint(ctx) {
+    super.paint(ctx)
+    this.y += this.up ? this.speed : -this.speed
+  }
+}
